@@ -88,7 +88,7 @@
 <fieldname>pbxid</fieldname>
 <uitype>1</uitype>
 <columnname>pbxid</columnname>
-<tablename>vtiger_cbswebsiteaccess</tablename>
+<tablename>vtiger_cbsconferencecalls</tablename>
 <generatedtype>1</generatedtype>
 <fieldlabel>pbxid</fieldlabel>
 <readonly>1</readonly>
@@ -173,7 +173,7 @@
 <fieldname>extcmpid</fieldname>
 <uitype>1</uitype>
 <columnname>extcmpid</columnname>
-<tablename>vtiger_cbswebsiteaccess</tablename>
+<tablename>vtiger_cbsconferencecalls</tablename>
 <generatedtype>1</generatedtype>
 <fieldlabel>extcmpid</fieldlabel>
 <readonly>1</readonly>
@@ -213,7 +213,7 @@
 <fieldname>cmpid</fieldname>
 <uitype>10</uitype>
 <columnname>cmpid</columnname>
-<tablename>vtiger_cbswebsiteaccess</tablename>
+<tablename>vtiger_cbsconferencecalls</tablename>
 <generatedtype>1</generatedtype>
 <fieldlabel>cmpid</fieldlabel>
 <readonly>1</readonly>
