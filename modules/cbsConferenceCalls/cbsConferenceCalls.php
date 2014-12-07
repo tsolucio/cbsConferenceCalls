@@ -143,6 +143,50 @@ class cbsConferenceCalls extends CRMEntity {
 	}
 
 	function save_module($module) {
+		$this->updateTimesheetTotalTime();
+	}
+
+	/**  Update totaltime field  **/
+	function updateTimesheetTotalTime() {
+	  global $adb;
+	  if (!empty($this->column_fields['access_end'])) {
+		$query = "select access_date, access_time, access_end from vtiger_cbsconferencecalls where cbsconferencecallsid={$this->id}";
+		$res = $adb->query($query);
+		$date = $adb->query_result($res, 0, 'access_date');
+		$time = $adb->query_result($res, 0, 'access_time');
+		list($year, $month, $day) = explode('-', $date);
+		list($hour, $minute) = explode(':', $time);
+		$starttime = mktime($hour, $minute, 0, $month, $day, $year);
+		$time = $adb->query_result($res, 0, 'access_end');
+		list($hour, $minute) = explode(':', $time);
+		$endtime = mktime($hour, $minute, 0, $month, $day, $year);
+		$counter = round(($endtime-$starttime)/60);
+		$totaltime = str_pad(floor($counter/60), 2, '0', STR_PAD_LEFT).':'.str_pad($counter%60, 2, '0', STR_PAD_LEFT);
+		$query = "update vtiger_cbsconferencecalls set totaltime='{$totaltime}' where cbsconferencecallsid={$this->id}";
+		$adb->query($query);
+	  }
+	  if (!empty($this->column_fields['totaltime']) && empty($this->column_fields['access_end'])) {
+		$totaltime = $this->column_fields['totaltime'];
+		if (strpos($this->column_fields['totaltime'], ':')) { // tenemos formato h:m:s, lo paso a minutos
+			$tt = explode(':', $this->column_fields['totaltime']);
+			$this->column_fields['totaltime'] = $tt[0]*60+$tt[1];
+		} elseif (strpos($totaltime, '.') or strpos($totaltime, ',')) { // tenemos formato decimal proporcional, lo paso a minutos
+			$tt = preg_split( "/[.,]/", $totaltime);
+			$mins = round(('0.'.$tt[1])*60,0);
+			$totaltime = $tt[0].':'.$mins;
+			$this->column_fields['totaltime'] = $tt[0]*60+$mins;
+		}
+		$query = "select access_date, access_time, access_end from vtiger_cbsconferencecalls where cbsconferencecallsid={$this->id}";
+		$res = $adb->query($query);
+		$date = $adb->query_result($res, 0, 'access_date');
+		$time = $adb->query_result($res, 0, 'access_time');
+		list($year, $month, $day) = explode('-', $date);
+		list($hour, $minute, $seconds) = explode(':', $time);
+		$endtime = mktime($hour, $minute+$this->column_fields['totaltime'], $seconds, $month, $day, $year);
+		$this->column_fields['access_end'] = date('H:i:s', $endtime);
+		$query = "update vtiger_cbsconferencecalls set totaltime='{$totaltime}', access_end='{$this->column_fields['access_end']}' where cbsconferencecallsid={$this->id}";
+		$adb->query($query);
+	  }
 	}
 
 	/**
