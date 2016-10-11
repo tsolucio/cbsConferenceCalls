@@ -24,6 +24,8 @@ class cbsConferenceCalls extends CRMEntity {
 	 * Mandatory table for supporting custom fields.
 	 */
 	var $customFieldTable = Array('vtiger_cbsconferencecallscf', 'cbsconferencecallsid');
+	// Uncomment the line below to support custom field columns on related lists
+	// var $related_tables = Array('vtiger_cbsconferencecallscf'=>array('cbsconferencecallsid','vtiger_cbsconferencecalls', 'cbsconferencecallsid'));
 
 	/**
 	 * Mandatory for Saving, Include tables related to this module.
@@ -73,7 +75,7 @@ class cbsConferenceCalls extends CRMEntity {
 		'access_time'=> Array('cbsconferencecalls' => 'access_time'),
 		'access_end'=> Array('cbsconferencecalls' => 'access_end'),
 		'totaltime'=> Array('cbsconferencecalls' => 'totaltime'),
-		'relid'=> Array('cbsconferencecalls' => 'relid'),
+		'relid'=> Array('cbsconferencecalls' => 'relid')
 	);
 	var $search_fields_name = Array(
 		/* Format: Field Label => fieldname */
@@ -82,7 +84,7 @@ class cbsConferenceCalls extends CRMEntity {
 		'access_time'=> 'access_time',
 		'access_end'=> 'access_end',
 		'totaltime'=> 'totaltime',
-		'relid'=> 'relid',
+		'relid'=> 'relid'
 	);
 
 	// For Popup window record selection
